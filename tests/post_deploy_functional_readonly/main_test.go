@@ -17,7 +17,7 @@ import (
 
 	"github.com/launchbynttdata/lcaf-component-terratest/lib"
 	"github.com/launchbynttdata/lcaf-component-terratest/types"
-	testimpl "github.com/launchbynttdata/tf-aws-module_collection-secretsmanager_secret/tests/testimpl"
+	"github.com/launchbynttdata/tf-aws-module_collection-secretsmanager_secret/tests/testimpl"
 )
 
 const (
