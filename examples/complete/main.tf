@@ -17,7 +17,7 @@ module "secrets_manager" {
   secret_name             = var.secret_name
   description             = var.description
   recovery_window_in_days = var.recovery_window_in_days
-  kms_key_id              = aws_kms_key.kms_key.arn
+  kms_key_id              = module.kms.key_arn
   tags                    = var.tags
 
   # Version
@@ -30,9 +30,12 @@ module "secrets_manager" {
   rotation_rules      = var.rotation_rules
 }
 
-resource "aws_kms_key" "kms_key" {
+module "kms" {
+  source  = "terraform-aws-modules/kms/aws"
+  version = "3.1.0"
+
   description             = var.kms_key_description
-  deletion_window_in_days = var.kms_key_deletion_window_in_days
+  deletion_window_in_days = var.deletion_window_in_days
   enable_key_rotation     = true
 }
 

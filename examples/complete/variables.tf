@@ -96,7 +96,7 @@ variable "maximum_length" {
 
   validation {
     condition     = var.maximum_length >= 10 && var.maximum_length <= 512
-    error_message = "Maximum length number should be between 24 to 512."
+    error_message = "Maximum length number should be between 10 to 512."
   }
 }
 
@@ -146,7 +146,7 @@ variable "description" {
 }
 
 variable "recovery_window_in_days" {
-  description = "The number of days to retain the secret after rotation before deletion"
+  description = "This value can be 0 to force deletion without recovery or range from 7 to 30 days. The default value is 30"
   type        = number
   default     = null
 }
@@ -198,8 +198,8 @@ variable "kms_key_description" {
   default     = "KMS key used for source bucket encryption"
 }
 
-variable "kms_key_deletion_window_in_days" {
-  description = "(Optional) The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the KMS key. If you specify a value, it must be between 7 and 30, inclusive. If you do not specify a value, it defaults to 30. If the KMS key is a multi-Region primary key with replicas, the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately."
+variable "deletion_window_in_days" {
+  description = "The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the KMS key. If you specify a value, it must be between 7 and 30, inclusive. If you do not specify a value, it defaults to 30"
   type        = number
-  default     = 30
+  default     = null
 }

@@ -10,22 +10,19 @@
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.64.0 |
+No providers.
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_secrets_manager"></a> [secrets\_manager](#module\_secrets\_manager) | ../.. | n/a |
+| <a name="module_kms"></a> [kms](#module\_kms) | terraform-aws-modules/kms/aws | 3.1.0 |
 | <a name="module_resource_names"></a> [resource\_names](#module\_resource\_names) | terraform.registry.launch.nttdata.com/module_library/resource_name/launch | ~> 1.0 |
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [aws_kms_key.kms_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
+No resources.
 
 ## Inputs
 
@@ -42,7 +39,7 @@
 | <a name="input_resource_names_map"></a> [resource\_names\_map](#input\_resource\_names\_map) | A map of key to resource\_name that will be used by tf-launch-module\_library-resource\_name to generate resource names. | <pre>map(object(<br>    {<br>      name       = string<br>      max_length = optional(number, 60)<br>    }<br>  ))</pre> | <pre>{<br>  "s3_bucket": {<br>    "name": "s3"<br>  }<br>}</pre> | no |
 | <a name="input_secret_name"></a> [secret\_name](#input\_secret\_name) | The description of the secrets. | `string` | `null` | no |
 | <a name="input_description"></a> [description](#input\_description) | The description of the secrets. | `string` | `null` | no |
-| <a name="input_recovery_window_in_days"></a> [recovery\_window\_in\_days](#input\_recovery\_window\_in\_days) | The number of days to retain the secret after rotation before deletion | `number` | `null` | no |
+| <a name="input_recovery_window_in_days"></a> [recovery\_window\_in\_days](#input\_recovery\_window\_in\_days) | This value can be 0 to force deletion without recovery or range from 7 to 30 days. The default value is 30 | `number` | `null` | no |
 | <a name="input_ignore_secret_changes"></a> [ignore\_secret\_changes](#input\_ignore\_secret\_changes) | Determines whether or not Terraform will ignore changes made externally to secret\_string or secret\_binary. Changing this value after creation is a destructive operation | `bool` | `false` | no |
 | <a name="input_secret_string"></a> [secret\_string](#input\_secret\_string) | The JSON string containing the secret data | `string` | `null` | no |
 | <a name="input_enable_rotation"></a> [enable\_rotation](#input\_enable\_rotation) | Whether to enabled rotation for the secret | `bool` | `false` | no |
@@ -50,7 +47,7 @@
 | <a name="input_rotation_rules"></a> [rotation\_rules](#input\_rotation\_rules) | Rotation rules for the secret, including the schedule expression | `object({})` | `{}` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `{'BusinessUnit': 'XYZ'}`). Neither the tag keys nor the tag values will be modified by this module. | `map(string)` | `{}` | no |
 | <a name="input_kms_key_description"></a> [kms\_key\_description](#input\_kms\_key\_description) | KMS key description. This KMS key is used for SSE-KMS encryption f source bucket. | `string` | `"KMS key used for source bucket encryption"` | no |
-| <a name="input_kms_key_deletion_window_in_days"></a> [kms\_key\_deletion\_window\_in\_days](#input\_kms\_key\_deletion\_window\_in\_days) | (Optional) The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the KMS key. If you specify a value, it must be between 7 and 30, inclusive. If you do not specify a value, it defaults to 30. If the KMS key is a multi-Region primary key with replicas, the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately. | `number` | `30` | no |
+| <a name="input_deletion_window_in_days"></a> [deletion\_window\_in\_days](#input\_deletion\_window\_in\_days) | The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the KMS key. If you specify a value, it must be between 7 and 30, inclusive. If you do not specify a value, it defaults to 30 | `number` | `null` | no |
 
 ## Outputs
 
