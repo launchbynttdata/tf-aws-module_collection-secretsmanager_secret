@@ -18,12 +18,21 @@ func TestSecretsManagerComplete(t *testing.T, ctx types.TestContext) {
 		checkARNAndIDFormat(t, ctx)
 	})
 
+	input := &secretsmanager.DescribeSecretInput{
+		SecretId: aws.String(terraform.Output(t, ctx.TerratestTerraformOptions(), "arn")),
+	}
+
+	client := GetSecretsManagerClient(t)
+
+	result, err := client.DescribeSecret(context.TODO(), input)
+	assert.NoError(t, err, "The expected secret was not found")
+
 	t.Run("TestingSecretExists", func(t *testing.T) {
-		testSecretsManager(t, ctx)
+		testSecretsManager(t, ctx, result)
 	})
 
 	t.Run("CheckSecretVersionId", func(t *testing.T) {
-		checkSecretVersion(t, ctx)
+		checkSecretVersion(t, ctx, result)
 	})
 }
 
@@ -41,33 +50,15 @@ func checkARNAndIDFormat(t *testing.T, ctx types.TestContext) {
 	assert.Regexp(t, actualARN, actualID, "ARN doesn't match with ID")
 }
 
-func testSecretsManager(t *testing.T, ctx types.TestContext) {
-	input := &secretsmanager.DescribeSecretInput{
-		SecretId: aws.String(terraform.Output(t, ctx.TerratestTerraformOptions(), "arn")),
-	}
-
-	client := GetSecretsManagerClient(t)
-
-	result, err := client.DescribeSecret(context.TODO(), input)
-	assert.NoError(t, err, "The expected secret was not found")
+func testSecretsManager(t *testing.T, ctx types.TestContext, result *secretsmanager.DescribeSecretOutput) {
 
 	actualARN := result.ARN
 
 	expectedARN := terraform.Output(t, ctx.TerratestTerraformOptions(), "arn")
-	assert.NoError(t, err)
 	assert.Equal(t, expectedARN, *actualARN, "Secret ARN doesn't match")
 }
 
-func checkSecretVersion(t *testing.T, ctx types.TestContext) {
-	input := &secretsmanager.DescribeSecretInput{
-		SecretId: aws.String(terraform.Output(t, ctx.TerratestTerraformOptions(), "arn")),
-	}
-
-	client := GetSecretsManagerClient(t)
-
-	result, err := client.DescribeSecret(context.TODO(), input)
-	assert.NoError(t, err, "The expected secret was not found")
-
+func checkSecretVersion(t *testing.T, ctx types.TestContext, result *secretsmanager.DescribeSecretOutput) {
 	VersionIdsToStages := result.VersionIdsToStages
 
 	currentSecretVersionId, err := GetCurrentSecretVersion(VersionIdsToStages)
