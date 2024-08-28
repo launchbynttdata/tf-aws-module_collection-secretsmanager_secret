@@ -96,7 +96,7 @@ variable "maximum_length" {
 
   validation {
     condition     = var.maximum_length >= 10 && var.maximum_length <= 512
-    error_message = "Maximum length number should be between 24 to 512."
+    error_message = "Maximum length number should be between 10 to 512."
   }
 }
 
@@ -145,7 +145,7 @@ variable "description" {
 }
 
 variable "recovery_window_in_days" {
-  description = "The number of days to retain the secret after rotation before deletion"
+  description = "This value can be 0 to force deletion without recovery or range from 7 to 30 days. The default value is 30"
   type        = number
   default     = null
 }
