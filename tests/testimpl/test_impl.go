@@ -20,13 +20,13 @@ func TestSecretsManagerComplete(t *testing.T, ctx types.TestContext) {
 	})
 
 	t.Run("TestingSecretExists", func(t *testing.T) {
-		testCodeArtifact(t, ctx)
+		testSecretsManager(t, ctx)
 	})
 
 }
 
 func checkARNIDFormat(t *testing.T, ctx types.TestContext) {
-	expectedPatternARN := "^arn:aws:secretsmanager:[a-z0-9-]+:[0-9]{12}:[a-z0-9-]+/.+$"
+	expectedPatternARN := `^arn:aws:secretsmanager:[a-z0-9-]+:\d{12}:secret:[a-zA-z0-9/_+=.@-]+$`
 
 	actualID := terraform.Output(t, ctx.TerratestTerraformOptions(), "id")
 	assert.NotEmpty(t, actualID, "ARN ID is empty")
@@ -37,7 +37,7 @@ func checkARNIDFormat(t *testing.T, ctx types.TestContext) {
 	assert.Regexp(t, expectedPatternARN, actualARN, "ARN does not match expected pattern")
 }
 
-func testCodeArtifact(t *testing.T, ctx types.TestContext) {
+func testSecretsManager(t *testing.T, ctx types.TestContext) {
 	input := &secretsmanager.DescribeSecretInput{
 		SecretId: aws.String(terraform.Output(t, ctx.TerratestTerraformOptions(), "arn")),
 	}
