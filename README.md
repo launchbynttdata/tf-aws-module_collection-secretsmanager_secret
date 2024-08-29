@@ -5,7 +5,7 @@
 
 ## Overview
 
-This terraform module manage Secrets Manager in AWS.
+This terraform module manages Secrets Manager in AWS.
 
 ## Pre-Commit hooks
 
