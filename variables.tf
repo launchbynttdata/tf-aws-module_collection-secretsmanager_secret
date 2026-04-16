@@ -89,20 +89,9 @@ variable "instance_resource" {
   }
 }
 
-variable "maximum_length" {
-  type        = number
-  description = "Number that represents the maximum length the resource name could have."
-  default     = 60
-
-  validation {
-    condition     = var.maximum_length >= 10 && var.maximum_length <= 512
-    error_message = "Maximum length number should be between 10 to 512."
-  }
-}
-
 variable "separator" {
   type        = string
-  description = "Separator to be used in the name"
+  description = "Separator to be used in the resource name"
   default     = "-"
 
   validation {
@@ -116,12 +105,23 @@ variable "separator" {
   }
 }
 
+variable "maximum_length" {
+  type        = number
+  description = "Number that represents the maximum length the resource name could have."
+  default     = 60
+
+  validation {
+    condition     = var.maximum_length >= 10 && var.maximum_length <= 512
+    error_message = "Maximum length number should be between 10 to 512."
+  }
+}
+
 variable "resource_names_map" {
   description = "A map of key to resource_name that will be used by tf-launch-module_library-resource_name to generate resource names"
   type = map(object(
     {
       name       = string
-      max_length = optional(number, 60)
+      max_length = optional(number)
     }
   ))
   default = {
